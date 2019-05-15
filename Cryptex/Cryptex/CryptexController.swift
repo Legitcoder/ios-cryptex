@@ -11,7 +11,10 @@ import Foundation
 
 class CryptexController {
     
-    var cryptexes: [Cryptex] = [Cryptex(password: "Cryptex", hint: "The thing you are trying to solve right now")]
+    var cryptexes: [Cryptex] = [
+        Cryptex(password: "Cryptex", hint: "The thing you are trying to solve right now"),
+        Cryptex(password: "Lambda", hint: "Name of the coding school you're attending")
+    ]
     
     var currentCryptex: Cryptex?
     
