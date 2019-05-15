@@ -42,8 +42,7 @@ class CryptexViewController: UIViewController, UIPickerViewDataSource, UIPickerV
             cryptexPickerView.selectRow(0, inComponent: component, animated: true)
         }
         
-        Timer.scheduledTimer(withTimeInterval: 60, repeats: false) { (timer) in
-            print("In timer handler")
+        Timer.scheduledTimer(withTimeInterval: 60, repeats: false) { (_) in
             self.presentNoTimeRemainingAlert()
         }
     }
@@ -53,6 +52,23 @@ class CryptexViewController: UIViewController, UIPickerViewDataSource, UIPickerV
         updateViews()
         reset()
     }
+    
+
+    func hasMatchingPassword() -> Bool {
+        let components: Int = cryptexController.currentCryptex?.password.count ?? 0
+        let currentPassword = cryptexController.currentCryptex?.password
+        var charArr: [String] = []
+        for component in 0..<components {
+            let selectedRow = cryptexPickerView.selectedRow(inComponent: component)
+            guard let letter = pickerView(cryptexPickerView, titleForRow: selectedRow, forComponent: component) else { continue }
+            charArr.append(letter)
+        }
+        let word = charArr.joined().lowercased()
+        return word == currentPassword?.lowercased()
+    }
+    
+    
+    
     
     func presentCorrectPasswordAlert() {
         let title = "Congratulations!"
@@ -113,18 +129,6 @@ class CryptexViewController: UIViewController, UIPickerViewDataSource, UIPickerV
         present(alert, animated: true, completion: nil)
     }
     
-    func hasMatchingPassword() -> Bool {
-        let components: Int = cryptexController.currentCryptex?.password.count ?? 0
-        let currentPassword = cryptexController.currentCryptex?.password
-        var charArr: [String] = []
-        for component in 0..<components {
-            let selectedRow = cryptexPickerView.selectedRow(inComponent: component)
-            guard let letter = pickerView(cryptexPickerView, titleForRow: selectedRow, forComponent: component) else { continue }
-            charArr.append(letter)
-        }
-        let word = charArr.joined().lowercased()
-        return word == currentPassword?.lowercased()
-    }
     
     @IBOutlet weak var hintLabel: UILabel!
     @IBOutlet weak var cryptexPickerView: UIPickerView!
